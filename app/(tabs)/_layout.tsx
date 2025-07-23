@@ -1,10 +1,23 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter, Tabs } from "expo-router";
+import { useState } from "react";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 
 export default function TabLayout() {
   const router = useRouter();
+  const isLoggedIn = true;
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
-  return <Tabs 
+    const openLoginModal = () => {
+        setIsLoginModalOpen(true)
+    }
+
+    const closeLoginModal = () => {
+        setIsLoginModalOpen(false)
+    }
+
+  return (<>
+  <Tabs 
     screenOptions={{
         headerShown: false,
     }}
@@ -25,7 +38,11 @@ export default function TabLayout() {
         listeners={{
             tabPress: (e) => {
                 e.preventDefault();
-                router.navigate("/modal");
+                if (isLoggedIn) {
+                    router.navigate("/modal");
+                } else {
+                    openLoginModal();
+                }
             }
         }}
         options={{
@@ -34,13 +51,31 @@ export default function TabLayout() {
                 <Ionicons name="add" size={24} color={focused ? "black" : "gray"} /> 
             )
         }}/>
-        <Tabs.Screen name="activity" options={{
+        <Tabs.Screen name="activity" 
+        listeners={{
+            tabPress: (e) => {
+                if(!isLoggedIn) {
+                    e.preventDefault();
+                    openLoginModal();
+                }
+            }
+        }}
+        options={{
             tabBarLabel: () => null,
             tabBarIcon: ({focused}) => (
                 <Ionicons name="heart-outline" size={24} color={focused ? "black" : "gray"} /> 
             )
         }}/>
-        <Tabs.Screen name="[username]" options={{
+        <Tabs.Screen name="[username]"
+        listeners={{
+            tabPress: (e) => {
+                if(!isLoggedIn) {
+                    e.preventDefault();
+                    openLoginModal();
+                }
+            }
+        }}
+         options={{
             tabBarLabel: () => null,
             tabBarIcon: ({focused}) => (
                 <Ionicons name="person-outline" size={24} color={focused ? "black" : "gray"} /> 
@@ -49,5 +84,22 @@ export default function TabLayout() {
         <Tabs.Screen name="(post)/[username]/post/[postID]" options={{
             href:null,
         }}/>
-    </Tabs>;
+    </Tabs>
+    <Modal
+        visible={isLoginModalOpen}
+        transparent={true}
+        animationType="fade">
+            <View style={{flex: 1, justifyContent: "flex-end", backgroundColor: "rgba(0, 0, 0, 0.5)"}}>
+                <View style={{backgroundColor:"white", padding: 20}}>
+                <Text>
+                    Login Modal
+                </Text>
+                <TouchableOpacity onPress={closeLoginModal}>
+                    <Ionicons name="close" size={24} color="555"/>
+                </TouchableOpacity>
+            </View>
+            </View>
+    </Modal>
+    </>
+  );
 }
