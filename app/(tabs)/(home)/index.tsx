@@ -14,30 +14,30 @@ export default function Index() {
   console.log(`화면 너비 : ${width}dp 화면 높이 : ${height}dp`);
   console.log(`화면 너비 : ${width * PixelRatio.get()}px 화면 높이 : ${height * PixelRatio.get()}px`);
   return (
-    <View style={[styles.container, {paddingTop: insets.top, paddingBottom: insets.bottom}]}>
+    <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
 
       <BlurView style={styles.header} intensity={70}>
-        <Image style={styles.headerLogo} source={require("../../../assets/images/react-logo.png")}/>
+        <Image style={styles.headerLogo} source={require("../../../assets/images/react-logo.png")} />
         {!isLoggedIn && (
-        <TouchableOpacity style={styles.loginButton} onPress={() => router.navigate(`/login`)}>
+          <TouchableOpacity style={styles.loginButton} onPress={() => router.navigate(`/login`)}>
             <Text style={styles.loginButtonText}>로그인</Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
         )}
       </BlurView>
       {isLoggedIn && (
-      <View style={styles.tabContainer}>
-      <View style={styles.tab}>
-        <TouchableOpacity onPress={() => router.push(`/`)}>
-          <Text style={{color:pathname === '/' ? "red" : "black"}}>For you</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.tab}>
-        <TouchableOpacity onPress={() => router.push(`/following`)}>
-          <Text style={{color:pathname === '/' ? "black" : "red"}}>Following</Text>
-        </TouchableOpacity>
-      </View>
-      </View>
-        )}
+        <View style={styles.tabContainer}>
+          <View style={styles.tab}>
+            <TouchableOpacity onPress={() => router.push(`/`)}>
+              <Text style={{ color: pathname === '/' ? "red" : "black" }}>For you</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.tab}>
+            <TouchableOpacity onPress={() => router.push(`/following`)}>
+              <Text style={{ color: pathname === '/' ? "black" : "red" }}>Following</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
       <View>
         <TouchableOpacity onPress={() => router.push(`/@taewoo/post/1`)}>
           <Text>게시글1</Text>
