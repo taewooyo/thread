@@ -18,11 +18,13 @@ export default function TabLayout() {
 
   return (<>
   <Tabs 
+  backBehavior="history"
     screenOptions={{
         headerShown: false,
     }}
     >
-        <Tabs.Screen name="(home)" options={{
+        <Tabs.Screen name="(home)" 
+        options={{
             tabBarLabel: () => null,
             tabBarIcon: ({focused}) => (
                 <Ionicons name="home" size={24} color={focused ? "black" : "gray"} /> 
