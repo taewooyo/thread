@@ -40,6 +40,21 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photoPermission": "The app accesses your photos to let you share them in your thread",
+          "cameraPermission": "The app accesses your camera to let you share photos in your thread"
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photoPermission": "Allow $(PRODUCT_NAME) to access your photos",
+          "savePhotosPermission": "Allow $(RPDOUCT_NAME) to save photos",
+          "isAccessMediaLocationEnabled": true
+        }
       ]
     ],
     "experiments": {
