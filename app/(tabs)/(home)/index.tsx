@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   Pressable,
+  useColorScheme,
 } from "react-native";
 import { usePathname, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,31 +16,38 @@ import { Ionicons } from "@expo/vector-icons";
 import SideMenu from "@/components/SideMenu";
 
 export default function Index() {
+  const colorScheme = useColorScheme();
   const router = useRouter();
-  const pathname = usePathname();
-  const insets = useSafeAreaInsets();
-  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
-  const { user, logout } = useContext(AuthContext);
-  const isLoggedIn = !!user;
 
   return (
-    <>
+    <View style={[styles.container, colorScheme === "dark" ? styles.containerDark : styles.containerLight]}>
       <View>
         <TouchableOpacity onPress={() => router.push(`/@zerocho/post/1`)}>
-          <Text>게시글1</Text>
+          <Text
+            style={colorScheme === "dark" ? styles.textDark : styles.textLight}>
+            게시글1
+            </Text>
         </TouchableOpacity>
       </View>
       <View>
         <TouchableOpacity onPress={() => router.push(`/@zerocho/post/2`)}>
-          <Text>게시글2</Text>
+          <Text
+          style={colorScheme === "dark" ? styles.textDark : styles.textLight}>
+            게시글2
+
+          </Text>
         </TouchableOpacity>
       </View>
       <View>
         <TouchableOpacity onPress={() => router.push(`/@zerocho/post/3`)}>
-          <Text>게시글3</Text>
+          <Text
+          style={colorScheme === "dark" ? styles.textDark : styles.textLight}>
+            게시글3
+
+          </Text>
         </TouchableOpacity>
       </View>
-      </>
+      </View>
   );
 }
 
@@ -47,6 +55,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  containerDark: {
+    backgroundColor: "black"
+  },
+  containerLight: {
+    backgroundColor: "white"
+  },
+  textDark: { color: "white"},
+  textLight: { color: "blakc"},
   tabContainer: {
     flexDirection: "row",
   },
