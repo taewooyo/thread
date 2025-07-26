@@ -23,10 +23,11 @@ if (__DEV__) {
                         accessToken: "access-token",
                         refreshToken: "refresh-token",
                         user: {
+
                             id: "stitch",
                             name: "skaxodn",
                             description: "I'm mobile developer",
-                            profileImage: "https://avatars.githubusercontent.com/u/66770613?v=4"
+                            profileImageUrl: "https://avatars.githubusercontent.com/u/66770613?v=4"
                         }
                     }
                 } else {

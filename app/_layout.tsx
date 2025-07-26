@@ -1,19 +1,28 @@
 import { Stack } from "expo-router";
-import { createContext, use, useState } from "react";
+import { createContext, use, useEffect, useState } from "react";
 import { Redirect, router } from "expo-router";
 import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+interface User {
+  id: string;
+  name: string;
+  profileImageUrl: string;
+  description: string;
+}
+
 export const AuthContext = createContext<{
-  user?: object;
-  login?: () => Promise<void>;
-  logout?: () => Promise<void>,
-}>({});
+  user?: User | null ;
+  login?: () => Promise<any>;
+  logout?: () => Promise<any>,
+}>({
+  user: null,
+});
 
 export default function RootLayout() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const login = () => {
     console.log("login");
@@ -51,6 +60,14 @@ export default function RootLayout() {
       AsyncStorage.removeItem("user"),
     ]);
   }; 
+
+  useEffect(() => {
+    AsyncStorage.getItem("user")
+      .then((user) => {
+        setUser(user ? JSON.parse(user) : null);
+      });
+      // TODO: 액세스 토큰 유효성 판단 필요
+  }, []);
 
   return (
     <AuthContext value={{ user, login, logout }}>

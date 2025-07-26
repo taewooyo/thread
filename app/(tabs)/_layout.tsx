@@ -156,7 +156,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="[username]"
                     listeners={{
-                        tabPress: (e) => {
+                         tabPress: (e) => {
                             if (!isLoggedIn) {
                                 e.preventDefault();
                                 openLoginModal();
