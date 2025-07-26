@@ -3,44 +3,15 @@ import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useContext } from "react";
+import { AuthContext } from "./_layout";
 
 export default function Login() {
     const insets = useSafeAreaInsets();
-    const isLoggedIn = false;
+    const { user, login } = useContext(AuthContext);
+    const isLoggedIn = !!user;
 
-    const onLogin = () => {
-        console.log("login");
-
-        fetch("/login", {
-            method: "POST",
-            body: JSON.stringify({
-                username: "stitch",
-                password: "1234",
-            }),
-        })
-            .then((res) => {
-                console.log("res", res, res.status);
-                if (res.status >= 400) {
-                    return Alert.alert("Error", "Invalid credentials");
-                }
-                return res.json()
-            })
-            .then((data) => {
-                console.log("data", data);
-                return Promise.all([
-                    SecureStore.setItemAsync("accessToken", data.accessToken),
-                    SecureStore.setItemAsync("refreshToken", data.refreshToken),
-                    AsyncStorage.setItem("user", JSON.stringify(data.user)),
-                ]);
-            })
-            .then(() => {
-                router.push("/(tabs)");
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-    }
+   
     if (isLoggedIn) {
         return <Redirect href="/(tabs)" />;
     }
@@ -51,7 +22,7 @@ export default function Login() {
             </Pressable>
             <Pressable
                 style={styles.loginButton}
-                onPress={onLogin}>
+                onPress={login}>
                 <Text style={styles.loginButtonText}>
                     Login
                 </Text>

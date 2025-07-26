@@ -2,12 +2,15 @@ import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions, PixelRatio
 import { useRouter, usePathname } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
+import { useContext } from "react";
+import { AuthContext } from "../../_layout";
 
 export default function Index() {
   const router = useRouter();
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
-  const isLoggedIn = false;
+  const { user } = useContext(AuthContext);
+  const isLoggedIn = !!user;
 
   console.log("pathname", pathname);
   const { width, height } = Dimensions.get("window")
