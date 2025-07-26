@@ -1,6 +1,9 @@
 import { Redirect, router } from "expo-router";
 import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function Login() {
     const insets = useSafeAreaInsets();
@@ -18,13 +21,21 @@ export default function Login() {
         })
             .then((res) => {
                 console.log("res", res, res.status);
-                if(res.status >= 400) {
+                if (res.status >= 400) {
                     return Alert.alert("Error", "Invalid credentials");
                 }
                 return res.json()
             })
             .then((data) => {
                 console.log("data", data);
+                return Promise.all([
+                    SecureStore.setItemAsync("accessToken", data.accessToken),
+                    SecureStore.setItemAsync("refreshToken", data.refreshToken),
+                    AsyncStorage.setItem("user", JSON.stringify(data.user)),
+                ]);
+            })
+            .then(() => {
+                router.push("/(tabs)");
             })
             .catch((error) => {
                 console.error(error)
